@@ -1,9 +1,6 @@
 package com.br.planningpoker.entity;
 
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,13 +16,11 @@ public class PokerSession {
     @Column(name = "TITLE")
     private String title;
 
-    @OneToOne(cascade = {CascadeType.REMOVE})
+    @OneToOne()
     @JoinColumn(name="FK_DECK")
     private Deck deck;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name="FK_POKER_SESSION")
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "pokerSession", fetch = FetchType.LAZY)
     private List<UserStory> userStories;
 
     public Long getId() {

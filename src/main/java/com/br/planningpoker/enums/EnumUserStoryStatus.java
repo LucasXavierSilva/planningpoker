@@ -3,7 +3,7 @@ package com.br.planningpoker.enums;
 public enum EnumUserStoryStatus {
     PENDING("PENDING"),VOTED("VOTED");
 
-    private static EnumUserStoryStatus[] enumUserStoryStatus = new EnumUserStoryStatus[]{PENDING, VOTED};
+    private static EnumUserStoryStatus[] userStoryStatuses = new EnumUserStoryStatus[]{PENDING, VOTED};
 
     private String status;
     EnumUserStoryStatus(String status) {
@@ -18,15 +18,8 @@ public enum EnumUserStoryStatus {
         this.status = status;
     }
 
-    public static EnumUserStoryStatus[] getEnumUserStoryStatus() {
-        return enumUserStoryStatus;
-    }
-
+    @Override
     public String toString() {
         return this.status;
-    }
-
-    public static void setEnumUserStoryStatus(EnumUserStoryStatus[] enumUserStoryStatus) {
-        EnumUserStoryStatus.enumUserStoryStatus = enumUserStoryStatus;
     }
 }

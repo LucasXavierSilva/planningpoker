@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class DeckControllerImpl implements DeckController {
-    private final static Logger logger = LoggerFactory.getLogger(DeckControllerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DeckControllerImpl.class);
 
     @Autowired
     private DeckService deckService;
@@ -24,13 +24,13 @@ public class DeckControllerImpl implements DeckController {
      *
      * @param deckDTO
      */
-    @RequestMapping(value = "/components/schemas/deck", method = RequestMethod.POST)
+    @PostMapping(value = "/components/schemas/deck")
     @ResponseBody
     @Override
     public ResponseEntity saveDeck(@RequestBody DeckDTO deckDTO) {
         try {
             deckService.saveDeck(deckDTO);
-            return new ResponseEntity(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -46,7 +46,7 @@ public class DeckControllerImpl implements DeckController {
     @Override
     public ResponseEntity<DeckDTO> findDeckById(@PathVariable("id") Long id) {
         try {
-            return new ResponseEntity(deckService.findDeckDTOById(id), HttpStatus.OK);
+            return new ResponseEntity<>(deckService.findDeckDTOById(id), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

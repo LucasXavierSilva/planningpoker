@@ -12,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class DeckServiceImpl implements DeckService {
@@ -71,12 +73,12 @@ public class DeckServiceImpl implements DeckService {
         if(id == null) {
             return null;
         }
-        Deck deck = deckRepository.findById(id);
+        Optional<Deck> deck = deckRepository.findById(id);
 
-        if(deck == null) {
+        if(!deck.isPresent()) {
             throw new PlanningPokerException("Deck could not be found");
         }
-        return deck;
+        return deck.get();
     }
 
     /**

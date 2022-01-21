@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -20,21 +21,6 @@ public class PokerSessionServiceImpl implements PokerSessionService {
     PokerSessionRepository pokerSessionRepository;
 
     /**
-     * Saves a new {@link  PokerSession} through a {@link PokerSessionDTO}
-     * Making validations before saving.
-     *
-     * @param pokerSessionDTO
-     * @return
-     */
-    @Override
-    public String savePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException {
-        PokerSessionConverter pokerSessionConverter = new PokerSessionConverter();
-        PokerSession pokerSession = pokerSessionConverter.pokerSessionDTOToPokerSession(pokerSessionDTO);
-        pokerSessionRepository.saveOrUpdate(pokerSession);
-        return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/pokerSession/" + pokerSession.getId();
-    }
-
-    /**
      * Saves a new {@link  PokerSession}.
      *
      * @param pokerSession
@@ -42,7 +28,7 @@ public class PokerSessionServiceImpl implements PokerSessionService {
      */
     @Override
     public PokerSession savePokerSession(PokerSession pokerSession) {
-        pokerSessionRepository.saveOrUpdate(pokerSession);
+        pokerSessionRepository.save(pokerSession);
         return pokerSession;
     }
 
@@ -57,7 +43,7 @@ public class PokerSessionServiceImpl implements PokerSessionService {
         PokerSessionConverter pokerSessionConverter = new PokerSessionConverter();
         findPokerSessionById(pokerSessionDTO.getId());
         PokerSession pokerSession = pokerSessionConverter.pokerSessionDTOToPokerSession(pokerSessionDTO);
-        pokerSessionRepository.saveOrUpdate(pokerSession);
+        pokerSessionRepository.save(pokerSession);
     }
 
     /**
@@ -68,6 +54,9 @@ public class PokerSessionServiceImpl implements PokerSessionService {
      */
     @Override
     public void deletePokerSession(Long idSession) throws PlanningPokerException {
+        if(idSession == null) {
+            throw new PlanningPokerException("The Session id can not be null.");
+        }
         pokerSessionRepository.delete(findPokerSessionById(idSession));
 
     }
@@ -96,12 +85,12 @@ public class PokerSessionServiceImpl implements PokerSessionService {
         if(idSession == null) {
             return null;
         }
-        PokerSession pokerSession = pokerSessionRepository.findById(idSession);
+        Optional<PokerSession> pokerSession = pokerSessionRepository.findById(idSession);
 
-        if(pokerSession == null) {
+        if(!pokerSession.isPresent()) {
             throw new PlanningPokerException("Session could not be found");
         }
-        return pokerSession;
+        return pokerSession.get();
     }
 
     /**

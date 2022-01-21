@@ -6,13 +6,11 @@ import com.br.planningpoker.exception.PlanningPokerException;
 
 public interface PokerSessionService {
 
-    public String savePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException;
-
     PokerSession savePokerSession(PokerSession pokerSession);
 
     void updatePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException;
 
-    public void deletePokerSession(Long idSession) throws PlanningPokerException;
+    void deletePokerSession(Long idSession) throws PlanningPokerException;
 
     PokerSessionDTO findPokerSessionDTOById(Long idSession) throws PlanningPokerException;
 

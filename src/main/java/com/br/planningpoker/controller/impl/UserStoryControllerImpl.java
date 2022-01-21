@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserStoryControllerImpl implements UserStoryController {
-    private final static Logger logger = LoggerFactory.getLogger(UserStoryControllerImpl.class);
+    private static  final Logger logger = LoggerFactory.getLogger(UserStoryControllerImpl.class);
 
     @Autowired
     private UserStoryService userStoryService;
@@ -24,7 +24,7 @@ public class UserStoryControllerImpl implements UserStoryController {
      *
      * @param userStoryDTO
      */
-    @RequestMapping(value = "/components/schemas/userStory", method = RequestMethod.POST)
+    @PostMapping(value = "/components/schemas/userStory")
     @ResponseBody
     @Override
     public ResponseEntity saveUserStory(@RequestBody UserStoryDTO userStoryDTO) {
@@ -42,13 +42,13 @@ public class UserStoryControllerImpl implements UserStoryController {
      *
      * @param userStoryDTO
      */
-    @RequestMapping(value = "/components/schemas/userStory", method = RequestMethod.PUT)
+    @PutMapping(value = "/components/schemas/userStory")
     @ResponseBody
     @Override
     public ResponseEntity updateUserStory(@RequestBody UserStoryDTO userStoryDTO) {
         try {
             userStoryService.updateUserStory(userStoryDTO);
-            return new ResponseEntity(HttpStatus.CREATED);
+            return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -65,7 +65,7 @@ public class UserStoryControllerImpl implements UserStoryController {
     public ResponseEntity deleteUserStory(@PathVariable("id") Long id) {
         try {
             userStoryService.deleteUserStory(id);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -81,7 +81,7 @@ public class UserStoryControllerImpl implements UserStoryController {
     @Override
     public ResponseEntity<UserStoryDTO> findUserStoryById(@PathVariable("id") Long id) {
         try {
-            return new ResponseEntity(userStoryService.findUserStoryDTOById(id), HttpStatus.OK);
+            return new ResponseEntity<>(userStoryService.findUserStoryDTOById(id), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

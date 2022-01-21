@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -58,12 +60,12 @@ public class UserServiceImpl implements UserService {
         if(id == null) {
             return null;
         }
-        User user = userRepository.findById(id);
+        Optional<User> user = userRepository.findById(id);
 
-        if(user == null) {
+        if(!user.isPresent()) {
             throw new PlanningPokerException("User could not be found");
         }
-        return user;
+        return user.get();
     }
 
     /**

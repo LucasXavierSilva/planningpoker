@@ -1,9 +1,7 @@
 package com.br.planningpoker.repository;
 
 import com.br.planningpoker.entity.Deck;
+import org.springframework.data.repository.CrudRepository;
 
-public interface DeckRepository {
-    void save(Deck deck);
-
-    Deck findById(Long id);
+public interface DeckRepository extends CrudRepository<Deck, Long> {
 }

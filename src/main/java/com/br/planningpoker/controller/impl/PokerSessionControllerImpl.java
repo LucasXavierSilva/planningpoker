@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class PokerSessionControllerImpl implements PokerSessionController {
-    private final static Logger logger = LoggerFactory.getLogger(PokerSessionControllerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(PokerSessionControllerImpl.class);
 
     @Autowired
     private PokerSessionService pokerSessionService;
@@ -28,12 +28,12 @@ public class PokerSessionControllerImpl implements PokerSessionController {
      *
      * @param pokerSessionDTO
      */
-    @RequestMapping(value = "/components/schemas/pokerSession", method = RequestMethod.POST)
+    @PostMapping(value = "/components/schemas/pokerSession")
     @ResponseBody
     @Override
     public ResponseEntity<String> savePokerSession(@RequestBody PokerSessionDTO pokerSessionDTO) {
         try {
-            return new ResponseEntity(pokerSessionFacade.savePokerSession(pokerSessionDTO), HttpStatus.CREATED);
+            return new ResponseEntity<>(pokerSessionFacade.savePokerSession(pokerSessionDTO), HttpStatus.CREATED);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -45,13 +45,13 @@ public class PokerSessionControllerImpl implements PokerSessionController {
      *
      * @param pokerSessionDTO
      */
-    @RequestMapping(value = "/components/schemas/pokerSession", method = RequestMethod.PUT)
+    @PutMapping(value = "/components/schemas/pokerSession")
     @ResponseBody
     @Override
     public ResponseEntity updatePokerSession(@RequestBody PokerSessionDTO pokerSessionDTO) {
         try {
             pokerSessionService.updatePokerSession(pokerSessionDTO);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -68,7 +68,7 @@ public class PokerSessionControllerImpl implements PokerSessionController {
     public ResponseEntity deletePokerSession(@PathVariable("idSession") Long idSession) {
         try {
             pokerSessionService.deletePokerSession(idSession);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -84,7 +84,7 @@ public class PokerSessionControllerImpl implements PokerSessionController {
     @Override
     public ResponseEntity<PokerSessionDTO> findPokerSessionById(@PathVariable("idSession") Long idSession) {
         try {
-            return new ResponseEntity(pokerSessionService.findPokerSessionDTOById(idSession), HttpStatus.OK);
+            return new ResponseEntity<>(pokerSessionService.findPokerSessionDTOById(idSession), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
             return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

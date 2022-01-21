@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
+
 @Service
 @Transactional
 public class UserStoryServiceImpl implements UserStoryService {
@@ -30,7 +32,7 @@ public class UserStoryServiceImpl implements UserStoryService {
         validateUserStory(userStoryDTO);
         UserStoryConverter userStoryConverter = new UserStoryConverter();
         UserStory userStory = userStoryConverter.userStoryDTOToUserStory(userStoryDTO);
-        userStoryRepository.saveOrUpdate(userStory);
+        userStoryRepository.save(userStory);
     }
 
     /**
@@ -41,6 +43,9 @@ public class UserStoryServiceImpl implements UserStoryService {
      */
     @Override
     public void deleteUserStory(Long id) throws PlanningPokerException {
+        if(id == null) {
+            throw new PlanningPokerException("The User Story id can not be null.");
+        }
         UserStory userStory = findUserStoryById(id);
         if(userStory.getStatus().equals(EnumUserStoryStatus.VOTED)) {
             throw new PlanningPokerException("User Story with status VOTED can not be deleted.");
@@ -59,7 +64,7 @@ public class UserStoryServiceImpl implements UserStoryService {
         findUserStoryById(userStoryDTO.getId());
         UserStoryConverter userStoryConverter = new UserStoryConverter();
         UserStory userStory = userStoryConverter.userStoryDTOToUserStory(userStoryDTO);
-        userStoryRepository.saveOrUpdate(userStory);
+        userStoryRepository.save(userStory);
     }
 
 
@@ -87,12 +92,12 @@ public class UserStoryServiceImpl implements UserStoryService {
         if(id == null) {
             return null;
         }
-        UserStory userStory = userStoryRepository.findById(id);
+        Optional<UserStory> userStory = userStoryRepository.findById(id);
 
-        if(userStory == null) {
+        if(!userStory.isPresent()) {
             throw new PlanningPokerException("User Story could not be found");
         }
-        return userStory;
+        return userStory.get();
     }
 
     /**

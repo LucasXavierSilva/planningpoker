@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 public interface PokerSessionController {
 
-    public ResponseEntity<String> savePokerSession(PokerSessionDTO pokerSessionDTO) throws Exception;
+    ResponseEntity<String> savePokerSession(PokerSessionDTO pokerSessionDTO);
 
     ResponseEntity updatePokerSession(@RequestBody PokerSessionDTO pokerSessionDTO);
 
