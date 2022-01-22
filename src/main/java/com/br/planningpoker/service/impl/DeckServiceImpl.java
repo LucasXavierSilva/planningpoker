@@ -26,14 +26,14 @@ public class DeckServiceImpl implements DeckService {
      * Making the validations before saving.
      *
      * @param deckDTO
-     * @return
+     * @return the
      */
     @Override
-    public void saveDeck(DeckDTO deckDTO) throws PlanningPokerException {
+    public DeckDTO saveDeck(DeckDTO deckDTO) throws PlanningPokerException {
         validateDeck(deckDTO);
         DeckConverter deckConverter = new DeckConverter();
         Deck deck = deckConverter.deckDTOToDeck(deckDTO);
-        deckRepository.save(deck);
+        return deckConverter.deckToDeckDTO(deckRepository.save(deck));
     }
 
     /**

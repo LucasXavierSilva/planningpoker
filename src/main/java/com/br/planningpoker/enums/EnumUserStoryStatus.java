@@ -1,9 +1,9 @@
 package com.br.planningpoker.enums;
 
 public enum EnumUserStoryStatus {
-    PENDING("PENDING"),VOTED("VOTED");
+    PENDING("PENDING"), VOTING("VOTING"), VOTED("VOTED");
 
-    private static EnumUserStoryStatus[] userStoryStatuses = new EnumUserStoryStatus[]{PENDING, VOTED};
+    private static EnumUserStoryStatus[] userStoryStatuses = new EnumUserStoryStatus[]{PENDING, VOTING, VOTED};
 
     private String status;
     EnumUserStoryStatus(String status) {

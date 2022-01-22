@@ -5,4 +5,6 @@ import com.br.planningpoker.exception.PlanningPokerException;
 
 public interface PokerSessionFacade {
     String savePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException;
+
+    void deletePokerSession(Long idSession) throws PlanningPokerException;
 }

@@ -29,11 +29,10 @@ public class UserStoryControllerImpl implements UserStoryController {
     @Override
     public ResponseEntity saveUserStory(@RequestBody UserStoryDTO userStoryDTO) {
         try {
-            userStoryService.saveUserStory(userStoryDTO);
-            return new ResponseEntity(HttpStatus.CREATED);
+            return new ResponseEntity<>(userStoryService.saveUserStory(userStoryDTO), HttpStatus.CREATED);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -47,11 +46,10 @@ public class UserStoryControllerImpl implements UserStoryController {
     @Override
     public ResponseEntity updateUserStory(@RequestBody UserStoryDTO userStoryDTO) {
         try {
-            userStoryService.updateUserStory(userStoryDTO);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(userStoryService.updateUserStory(userStoryDTO), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -68,7 +66,7 @@ public class UserStoryControllerImpl implements UserStoryController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -79,12 +77,12 @@ public class UserStoryControllerImpl implements UserStoryController {
      */
     @GetMapping(value = "/components/schemas/userStory/{id}")
     @Override
-    public ResponseEntity<UserStoryDTO> findUserStoryById(@PathVariable("id") Long id) {
+    public ResponseEntity findUserStoryById(@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<>(userStoryService.findUserStoryDTOById(id), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

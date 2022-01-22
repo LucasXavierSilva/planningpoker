@@ -8,11 +8,13 @@ public interface PokerSessionService {
 
     PokerSession savePokerSession(PokerSession pokerSession);
 
-    void updatePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException;
+    PokerSessionDTO updatePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException;
 
     void deletePokerSession(Long idSession) throws PlanningPokerException;
 
     PokerSessionDTO findPokerSessionDTOById(Long idSession) throws PlanningPokerException;
 
     void validatePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException;
+
+    PokerSession findPokerSessionById(Long idSession) throws PlanningPokerException;
 }

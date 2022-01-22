@@ -5,7 +5,7 @@ import com.br.planningpoker.entity.Deck;
 import com.br.planningpoker.exception.PlanningPokerException;
 
 public interface DeckService {
-    void saveDeck(DeckDTO deckDTO) throws PlanningPokerException;
+    DeckDTO saveDeck(DeckDTO deckDTO) throws PlanningPokerException;
 
     Deck saveDeck(Deck deck);
 

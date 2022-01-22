@@ -27,12 +27,12 @@ public class UserControllerImpl implements UserController {
     @PostMapping(value = "/components/schemas/user")
     @ResponseBody
     @Override
-    public ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity saveUser(@RequestBody UserDTO userDTO) {
         try {
             return new ResponseEntity<>(userService.saveUser(userDTO), HttpStatus.CREATED);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -43,12 +43,12 @@ public class UserControllerImpl implements UserController {
      */
     @GetMapping(value = "/components/schemas/user/{id}")
     @Override
-    public ResponseEntity<UserDTO> findUserById(@PathVariable("id") Long id) {
+    public ResponseEntity findUserById(@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<>(userService.findUserDTOById(id), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

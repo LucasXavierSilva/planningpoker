@@ -3,10 +3,11 @@ package com.br.planningpoker.entity;
 import com.br.planningpoker.enums.EnumUserStoryStatus;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "TB_USER_STORY")
-public class UserStory {
+public class UserStory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

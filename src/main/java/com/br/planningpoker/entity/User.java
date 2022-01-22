@@ -1,14 +1,15 @@
 package com.br.planningpoker.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "TB_USER")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID_DECK", nullable = false)
+    @Column(name = "ID_USER", nullable = false)
     private Long id;
 
     @Column(name = "NICKNAME")

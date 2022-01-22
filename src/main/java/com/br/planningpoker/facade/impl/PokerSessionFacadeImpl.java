@@ -5,15 +5,19 @@ import com.br.planningpoker.converter.PokerSessionConverter;
 import com.br.planningpoker.dto.PokerSessionDTO;
 import com.br.planningpoker.entity.Deck;
 import com.br.planningpoker.entity.PokerSession;
+import com.br.planningpoker.entity.Vote;
 import com.br.planningpoker.exception.PlanningPokerException;
 import com.br.planningpoker.facade.PokerSessionFacade;
 import com.br.planningpoker.service.DeckService;
 import com.br.planningpoker.service.PokerSessionService;
 import com.br.planningpoker.service.UserStoryService;
+import com.br.planningpoker.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.util.List;
 
 @Service("PokerSessionFacade")
 @Lazy
@@ -27,6 +31,9 @@ public class PokerSessionFacadeImpl implements PokerSessionFacade {
 
     @Autowired
     UserStoryService userStoryService;
+
+    @Autowired
+    VoteService voteService;
 
     /**
      * Saves a new {@link  PokerSession}.
@@ -42,6 +49,22 @@ public class PokerSessionFacadeImpl implements PokerSessionFacade {
         PokerSession pokerSession = getPokerSession(pokerSessionDTO);
         pokerSession = pokerSessionService.savePokerSession(pokerSession);
         return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/pokerSession/" + pokerSession.getId();
+    }
+
+    /**
+     * Deletes an existing {@link PokerSession} and
+     * the {@link Vote} that is linked to it.
+     *
+     * @param idSession
+     */
+    @Override
+    public void deletePokerSession(Long idSession) throws PlanningPokerException {
+        if(idSession == null) {
+            throw new PlanningPokerException("The Poker Session id can not be null");
+        }
+        List<Vote> votes = voteService.findVotesByPokerSessionId(idSession);
+        voteService.deleteAll(votes);
+        pokerSessionService.deletePokerSession(idSession);
     }
 
     /**

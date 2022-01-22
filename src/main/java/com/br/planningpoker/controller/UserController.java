@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public interface UserController {
-    ResponseEntity<UserDTO> saveUser(@RequestBody UserDTO userDTO);
+    ResponseEntity saveUser(@RequestBody UserDTO userDTO);
 
-    ResponseEntity<UserDTO> findUserById(@PathVariable("id") Long id);
+    ResponseEntity findUserById(@PathVariable("id") Long id);
 }

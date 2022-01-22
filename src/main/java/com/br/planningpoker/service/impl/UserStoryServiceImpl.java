@@ -28,11 +28,12 @@ public class UserStoryServiceImpl implements UserStoryService {
      * @return
      */
     @Override
-    public void saveUserStory(UserStoryDTO userStoryDTO) throws PlanningPokerException {
+    public UserStoryDTO saveUserStory(UserStoryDTO userStoryDTO) throws PlanningPokerException {
         validateUserStory(userStoryDTO);
         UserStoryConverter userStoryConverter = new UserStoryConverter();
+        userStoryDTO.setStatus(EnumUserStoryStatus.PENDING);
         UserStory userStory = userStoryConverter.userStoryDTOToUserStory(userStoryDTO);
-        userStoryRepository.save(userStory);
+        return userStoryConverter.userStoryToUserStoryDTO(userStoryRepository.save(userStory));
     }
 
     /**
@@ -57,14 +58,15 @@ public class UserStoryServiceImpl implements UserStoryService {
      * Updates a {@link  com.br.planningpoker.entity.UserStory}.
      *
      * @param userStoryDTO
+     * @return
      */
     @Override
-    public void updateUserStory(UserStoryDTO userStoryDTO) throws PlanningPokerException {
+    public UserStoryDTO updateUserStory(UserStoryDTO userStoryDTO) throws PlanningPokerException {
         validateUserStory(userStoryDTO);
         findUserStoryById(userStoryDTO.getId());
         UserStoryConverter userStoryConverter = new UserStoryConverter();
         UserStory userStory = userStoryConverter.userStoryDTOToUserStory(userStoryDTO);
-        userStoryRepository.save(userStory);
+        return userStoryConverter.userStoryToUserStoryDTO(userStoryRepository.save(userStory));
     }
 
 
@@ -88,9 +90,10 @@ public class UserStoryServiceImpl implements UserStoryService {
      * @return
      * @throws PlanningPokerException
      */
-    private UserStory findUserStoryById(Long id) throws PlanningPokerException {
+    @Override
+    public UserStory findUserStoryById(Long id) throws PlanningPokerException {
         if(id == null) {
-            return null;
+            throw new PlanningPokerException("The User Story id can not be null.");
         }
         Optional<UserStory> userStory = userStoryRepository.findById(id);
 

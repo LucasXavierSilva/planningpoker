@@ -2,10 +2,11 @@ package com.br.planningpoker.entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "TB_DECK")
-public class Deck {
+public class Deck implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

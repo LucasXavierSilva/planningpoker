@@ -36,7 +36,7 @@ public class PokerSessionControllerImpl implements PokerSessionController {
             return new ResponseEntity<>(pokerSessionFacade.savePokerSession(pokerSessionDTO), HttpStatus.CREATED);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -50,11 +50,10 @@ public class PokerSessionControllerImpl implements PokerSessionController {
     @Override
     public ResponseEntity updatePokerSession(@RequestBody PokerSessionDTO pokerSessionDTO) {
         try {
-            pokerSessionService.updatePokerSession(pokerSessionDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(pokerSessionService.updatePokerSession(pokerSessionDTO), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -67,11 +66,11 @@ public class PokerSessionControllerImpl implements PokerSessionController {
     @Override
     public ResponseEntity deletePokerSession(@PathVariable("idSession") Long idSession) {
         try {
-            pokerSessionService.deletePokerSession(idSession);
+            pokerSessionFacade.deletePokerSession(idSession);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -82,12 +81,12 @@ public class PokerSessionControllerImpl implements PokerSessionController {
      */
     @GetMapping(value = "/components/schemas/pokerSession/{idSession}")
     @Override
-    public ResponseEntity<PokerSessionDTO> findPokerSessionById(@PathVariable("idSession") Long idSession) {
+    public ResponseEntity findPokerSessionById(@PathVariable("idSession") Long idSession) {
         try {
             return new ResponseEntity<>(pokerSessionService.findPokerSessionDTOById(idSession), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

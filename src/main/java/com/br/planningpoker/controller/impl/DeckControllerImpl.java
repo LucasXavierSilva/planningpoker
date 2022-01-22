@@ -29,11 +29,10 @@ public class DeckControllerImpl implements DeckController {
     @Override
     public ResponseEntity saveDeck(@RequestBody DeckDTO deckDTO) {
         try {
-            deckService.saveDeck(deckDTO);
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            return new ResponseEntity<>(deckService.saveDeck(deckDTO), HttpStatus.CREATED);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -44,12 +43,12 @@ public class DeckControllerImpl implements DeckController {
      */
     @GetMapping(value = "/components/schemas/deck/{id}")
     @Override
-    public ResponseEntity<DeckDTO> findDeckById(@PathVariable("id") Long id) {
+    public ResponseEntity findDeckById(@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<>(deckService.findDeckDTOById(id), HttpStatus.OK);
         } catch (PlanningPokerException e) {
             logger.error(e.getMessage());
-            return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

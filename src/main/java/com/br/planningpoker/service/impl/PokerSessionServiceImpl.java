@@ -36,14 +36,15 @@ public class PokerSessionServiceImpl implements PokerSessionService {
      * Updates a {@link PokerSession}.
      *
      * @param pokerSessionDTO
+     * @return
      */
     @Override
-    public void updatePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException {
+    public PokerSessionDTO updatePokerSession(PokerSessionDTO pokerSessionDTO) throws PlanningPokerException {
         validatePokerSession(pokerSessionDTO);
         PokerSessionConverter pokerSessionConverter = new PokerSessionConverter();
         findPokerSessionById(pokerSessionDTO.getId());
         PokerSession pokerSession = pokerSessionConverter.pokerSessionDTOToPokerSession(pokerSessionDTO);
-        pokerSessionRepository.save(pokerSession);
+        return pokerSessionConverter.pokerSessionToPokerSessionDTO(pokerSessionRepository.save(pokerSession));
     }
 
     /**
@@ -79,9 +80,8 @@ public class PokerSessionServiceImpl implements PokerSessionService {
      *
      * @param idSession
      * @return
-     * @throws PlanningPokerException
      */
-    private PokerSession findPokerSessionById(Long idSession) throws PlanningPokerException {
+    public PokerSession findPokerSessionById(Long idSession) throws PlanningPokerException {
         if(idSession == null) {
             return null;
         }

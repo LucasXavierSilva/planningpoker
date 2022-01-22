@@ -12,5 +12,5 @@ public interface UserStoryController {
 
     ResponseEntity deleteUserStory(@PathVariable("id") Long id);
 
-    ResponseEntity<UserStoryDTO> findUserStoryById(@PathVariable("id") Long id);
+    ResponseEntity findUserStoryById(@PathVariable("id") Long id);
 }
